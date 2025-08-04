@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>平方根を学ぼう！</title>
+    
+    <!-- Roboto Font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+
+    <!-- KaTeX -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css" integrity="sha384-5TcZemv2l/9On385z///+d7MSYlvIEw9FuZTIdZ14vJLqWphw7e7ZPuOiCHJcFCP" crossorigin="anonymous">
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js" integrity="sha384-cMkvdD8LoxVzGF/RPUKAcvmm49FQ0oxwDF3BGKtDXcEc+T1b2N+teh/OJfpU0jr6" crossorigin="anonymous"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js" integrity="sha384-hCXGrW6PitJEwbkoStFjeJxv+fSOOQKOPbJxSfM6G5sWZjAyWhXiTIIAmQqnlLlh" crossorigin="anonymous"></script>
+    
+    <style>
+        /* === CSS Variables for Theming === */
+        :root {
+            --bg-color: #f5f5f7;
+            --text-color: #1d1d1f;
+            --header-color: #0071e3;
+            --accent-color: #ffffff;
+            --border-color: #d2d2d7;
+            --button-bg: #0071e3;
+            --button-text: #ffffff;
+            --box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --bg-color: #121212;
+                --text-color: #f5f5f7;
+                --header-color: #0a84ff;
+                --accent-color: #1d1d1f;
+                --border-color: #424245;
+                --button-bg: #0a84ff;
+                --button-text: #ffffff;
+                --box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+            }
+        }
+
+        /* === Pure Fade-in Animation Definition === */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        /* === General Styles === */
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.8;
+            margin: 0;
+            padding: 20px;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: var(--accent-color);
+            padding: 20px 40px;
+            border-radius: 12px;
+            box-shadow: var(--box-shadow);
+            border: 1px solid var(--border-color);
+        }
+        
+        /* Elements to be animated will start as transparent */
+        .container > *, #problem-list li {
+            opacity: 0;
+        }
+
+        h1, h2 {
+            color: var(--header-color);
+            border-bottom: 2px solid var(--header-color);
+            padding-bottom: 10px;
+        }
+        
+        h3 {
+            color: var(--header-color);
+        }
+
+        h1 {
+            text-align: center;
+            font-size: 2.5em;
+        }
+        
+        /* === KaTeX Color Theming === */
+        .katex {
+            color: var(--text-color);
+            font-size: 1.1em;
+        }
+
+        /* === Trivia (豆知識) Style === */
+        .trivia-box {
+            background-color: var(--bg-color);
+            border-left: 5px solid var(--header-color);
+            margin: 2em 0;
+            padding: 15px 20px;
+            border-radius: 8px;
+        }
+
+        .trivia-box h3 {
+            display: flex;
+            align-items: center;
+            margin-top: 0;
+            color: var(--header-color);
+        }
+
+        .trivia-box svg {
+            fill: currentColor;
+            margin-right: 10px;
+            min-width: 16px;
+        }
+
+        /* === Practice Problems (練習問題) Style === */
+        #problem-section h2 {
+            margin-bottom: 5px;
+        }
+
+        #problem-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        #generate-button {
+            font-family: 'Roboto', sans-serif;
+            background-color: var(--button-bg);
+            color: var(--button-text);
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1em;
+            font-weight: bold;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        
+        #generate-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+        }
+        
+        #problem-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        #problem-list li {
+            background-color: var(--bg-color);
+            margin-bottom: 12px;
+            padding: 15px;
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+            display: flex;
+            align-items: center;
+        }
+        
+        #problem-list .problem-number {
+            color: var(--header-color);
+            font-weight: bold;
+            margin-right: 15px;
+            font-size: 1.2em;
+            min-width: 2.5ch;
+            text-align: right;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>平方根を学ぼう！</h1>
+
+        <section id="introduction">
+            <h2>$1$. 平方根ってなんだろう？</h2>
+            <p>
+                平方根（へいほうこん）とは、<strong>「$2$乗（平方）すると、もとの数になる数」</strong>のことです。「根（こん）」という字には「根源」や「もと」という意味がありますから、「平方の根源」つまり「$2$乗する前の数」と考えると分かりやすいかもしれません。
+            </p>
+            <p>
+                例えば、「$9$の平方根は？」と聞かれたら、「$2$乗して$9$になる数は何ですか？」という意味になります。答えは、$3$と$-3$の$2$つですね。
+            </p>
+            <p style="text-align: center; font-size: 1.2em;">
+                $3^2 = 9$ <br>
+                $(-3)^2 = 9$
+            </p>
+            <p>
+                このように、正の数の平方根は、必ず<strong>プラスの数とマイナスの数の$2$つ</strong>が存在します。この$2$つをまとめて「$\pm 3$」（プラスマイナスさん）と書くこともあります。
+            </p>
+            <h3>ルート記号 $\sqrt{\phantom{x}}$</h3>
+            <p>
+                では、$2$乗して$5$になる数はどうでしょう？整数や分数ではうまく表せませんね。そこで登場するのが、根号（こんごう）またはルートと呼ばれる記号「$\sqrt{\phantom{x}}$」です。
+            </p>
+            <p>
+                $5$の平方根は $\sqrt{5}$ と $-\sqrt{5}$ になります。$\sqrt{5}$ は「ルート$5$」と読み、これは「$2$乗すると$5$になる正の数」を表す約束事です。
+            </p>
+        </section>
+
+        <div class="trivia-box">
+            <h3>
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-lightbulb" viewBox="0 0 16 16">
+                    <path d="M2 6a6 6 0 1 1 10.174 4.31c-.203.196-.359.4-.453.619l-.762 1.769A.5.5 0 0 1 10.5 13a.5.5 0 0 1 0 1 .5.5 0 0 1 0 1l-.224.447a1 1 0 0 1-.894.553H6.618a1 1 0 0 1-.894-.553L5.5 15a.5.5 0 0 1 0-1 .5.5 0 0 1 0-1 .5.5 0 0 1-.46-.302l-.761-1.77a2 2 0 0 0-.453-.618A5.98 5.98 0 0 1 2 6m6-5a5 5 0 0 0-3.479 8.592c.263.254.514.564.676.941L5.83 12h4.342l.632-1.467c.162-.377.413-.687.676-.941A5 5 0 0 0 8 1"/>
+                </svg>
+                豆知識 $1$：ルート記号の起源
+            </h3>
+            <p>
+                この奇妙な形をしたルート記号 $\sqrt{\phantom{x}}$ は、どこから来たのでしょうか？一説には、ラテン語で「根」を意味する "radix" の頭文字 "r" が、時代と共にだんだんと形を変えて現在の記号になったと言われています。昔の数学者が書いた "r" が、今の私たちには $\sqrt{\phantom{x}}$ のように見えたのかもしれませんね。
+            </p>
+        </div>
+
+        <section id="simplifying">
+            <h2>$2$. ルートの中を簡単にしよう（簡略化）</h2>
+            <p>
+                ルートの中の数字は、できるだけ小さい整数にするのがルールです。この作業には、以前学んだ「<strong>素因数分解</strong>」が大活躍します。
+            </p>
+            <p>
+                やり方は簡単で、「<strong>ルートの中で$2$乗のペアになった数字は、ルートの外に$1$つだけ出すことができる</strong>」というルールを使います。例えば、$\sqrt{12}$を簡単にしてみましょう。
+            </p>
+            <ol>
+                <li>まず、$12$を素因数分解します: $12 = 2^2 \times 3$</li>
+                <li>これをルートの中に戻します: $\sqrt{12} = \sqrt{2^2 \times 3}$</li>
+                <li>$2$乗のペアになっている $2^2$ を見つけます。</li>
+                <li>この$2$をルートの外に出します: $2\sqrt{3}$</li>
+            </ol>
+            <p>
+                これで、$\sqrt{12}$ の簡略化は完了です！このテクニックは平方根の計算で頻繁に使う、非常に重要な基本操作です。
+            </p>
+        </section>
+        
+        <section id="calculation">
+            <h2>$3$. 平方根の計算ルール</h2>
+            <p>平方根にはいくつかの基本的な計算ルールがあります。これらを覚えれば、様々な計算に応用できます。</p>
+            
+            <h3>乗法と除法</h3>
+            <p>ルート同士の掛け算と割り算は、中の数字をまとめて計算することができます。</p>
+            <p>$\sqrt{a} \times \sqrt{b} = \sqrt{a \times b}$ （例: $\sqrt{2} \times \sqrt{3} = \sqrt{6}$）</p>
+            <p>$\frac{\sqrt{a}}{\sqrt{b}} = \sqrt{\frac{a}{b}}$ （例: $\frac{\sqrt{10}}{\sqrt{2}} = \sqrt{\frac{10}{2}} = \sqrt{5}$）</p>
+
+            <h3>分母の有理化</h3>
+            <p>分母にルートが含まれている場合、分母と分子に同じルートを掛けて、分母からルートをなくす変形をします。これを「<strong>分母の有理化</strong>」と呼びます。</p>
+            <p>例えば、$\frac{3}{\sqrt{2}}$ を有理化してみましょう。</p>
+            <p style="text-align: center; font-size: 1.2em;">
+            $\frac{3}{\sqrt{2}} = \frac{3 \times \sqrt{2}}{\sqrt{2} \times \sqrt{2}} = \frac{3\sqrt{2}}{2}$
+            </p>
+            <p>分母の $\sqrt{2}$ が整数である $2$ に変わりました。このように有理化することで、値がより分かりやすくなったり、後の計算がしやすくなったりします。</p>
+        </section>
+        
+        <div class="trivia-box">
+            <h3>
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-lightbulb" viewBox="0 0 16 16">
+                    <path d="M2 6a6 6 0 1 1 10.174 4.31c-.203.196-.359.4-.453.619l-.762 1.769A.5.5 0 0 1 10.5 13a.5.5 0 0 1 0 1 .5.5 0 0 1 0 1l-.224.447a1 1 0 0 1-.894.553H6.618a1 1 0 0 1-.894-.553L5.5 15a.5.5 0 0 1 0-1 .5.5 0 0 1 0-1 .5.5 0 0 1-.46-.302l-.761-1.77a2 2 0 0 0-.453-.618A5.98 5.98 0 0 1 2 6m6-5a5 5 0 0 0-3.479 8.592c.263.254.514.564.676.941L5.83 12h4.342l.632-1.467c.162-.377.413-.687.676-.941A5 5 0 0 0 8 1"/>
+                </svg>
+                豆知識 $2$：無理数「$\sqrt{2}$」の衝撃
+            </h3>
+            <p>
+                $\sqrt{2}$ や $\sqrt{3}$ のように、ルートを外せない数は、小数で表すと $1.41421356...$ や $1.7320508...$ のように、数字の並びが循環することなく無限に続きます。このような数を「<strong>無理数</strong>」と呼びます。
+            </p>
+            <p>
+                古代ギリシャのピタゴラス教団は「すべての数は整数や分数の比で表せる」と信じていたため、この無理数の発見は彼らにとって大きな衝撃でした。一説には、無理数の存在を外部に漏らした弟子が処罰されたという伝説まで残っているほど、当時の数学の世界観を揺るがす大発見だったのです。
+            </p>
+        </div>
+        
+        <div class="trivia-box">
+            <h3>
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-lightbulb" viewBox="0 0 16 16">
+                    <path d="M2 6a6 6 0 1 1 10.174 4.31c-.203.196-.359.4-.453.619l-.762 1.769A.5.5 0 0 1 10.5 13a.5.5 0 0 1 0 1 .5.5 0 0 1 0 1l-.224.447a1 1 0 0 1-.894.553H6.618a1 1 0 0 1-.894-.553L5.5 15a.5.5 0 0 1 0-1 .5.5 0 0 1 0-1 .5.5 0 0 1-.46-.302l-.761-1.77a2 2 0 0 0-.453-.618A5.98 5.98 0 0 1 2 6m6-5a5 5 0 0 0-3.479 8.592c.263.254.514.564.676.941L5.83 12h4.342l.632-1.467c.162-.377.413-.687.676-.941A5 5 0 0 0 8 1"/>
+                </svg>
+                豆知識 $3$：現代社会を支える平方根
+            </h3>
+            <p>
+                平方根は学校の勉強だけでなく、私たちの生活を支える最先端技術に深く関わっています。例えば、高画質なビデオゲームやCG映画では、キャラクターや物体間の正確な距離を計算するために、毎秒何百万回も平方根が計算されています。
+            </p>
+            <p>
+                また、AIや機械学習の世界では、予測モデルの精度を評価する「<strong>二乗平均平方根誤差（RMSE）</strong>」という指標に不可欠です。さらには、カーナビやスマートフォンのGPSが正確な位置を割り出す際にも、複数の衛星からの距離を計算するために平方根が活用されているのです。
+            </p>
+        </div>
+
+        <section id="problem-section">
+            <h2>$4$. 練習問題</h2>
+            <div id="problem-meta">
+                <p>問題数: <span class="katex">25</span></p>
+                <button id="generate-button">新しい問題を生成</button>
+            </div>
+            <div id="problem-list-container">
+                <ol id="problem-list"></ol>
+            </div>
+        </section>
+
+    </div>
+
+    <script>
+        // === JavaScript Section ===
+
+        // KaTeX auto-render settings
+        const renderMath = () => {
+            renderMathInElement(document.body, {
+                delimiters: [
+                    {left: '$$', right: '$$', display: true},
+                    {left: '$', right: '$', display: false},
+                    {left: '\\(', right: '\\)', display: false},
+                    {left: '\\[', right: '\\]', display: true}
+                ],
+                throwOnError : false
+            });
+        };
+
+        const problemList = document.getElementById('problem-list');
+        const generateButton = document.getElementById('generate-button');
+        const problemCount = 25;
+
+        // Function to generate and display problems
+        const generateProblems = () => {
+            problemList.innerHTML = '';
+
+            for (let i = 1; i <= problemCount; i++) {
+                const listItem = document.createElement('li');
+                let problemText = '';
+                
+                const problemType = Math.floor(Math.random() * 4);
+                
+                if (problemType === 0) {
+                    const insideSquare = Math.floor(Math.random() * 8) + 2;
+                    const insidePrime = [2, 3, 5, 6, 7][Math.floor(Math.random() * 5)];
+                    const number = insideSquare * insideSquare * insidePrime;
+                    problemText = `次の数を $a\\sqrt{b}$ の形に簡略化しなさい: <strong>$\\sqrt{${number}}$</strong>`;
+                } else if (problemType === 1) {
+                    const numerator = Math.floor(Math.random() * 9) + 1;
+                    const denominator = [2, 3, 5, 6, 7, 10][Math.floor(Math.random() * 6)];
+                    problemText = `次の式の分母を有理化しなさい: <strong>$\\frac{${numerator}}{\\sqrt{${denominator}}}$</strong>`;
+                } else if (problemType === 2) {
+                    const num1 = [2, 3, 5, 6, 7][Math.floor(Math.random() * 5)];
+                    const num2 = [2, 3, 5, 6, 7, 8, 10][Math.floor(Math.random() * 7)];
+                    problemText = `次の計算をしなさい: <strong>$\\sqrt{${num1}} \\times \\sqrt{${num2}}$</strong>`;
+                } else {
+                    const base = Math.floor(Math.random() * 14) + 2;
+                    const number = base * base;
+                     problemText = `次の値をもとめなさい: <strong>$\\sqrt{${number}}$</strong>`;
+                }
+
+                listItem.innerHTML = `
+                    <span class="problem-number">${i}.</span>
+                    <span>${problemText}</span>
+                `;
+                
+                listItem.style.animation = `fadeIn 0.6s ease-out forwards`;
+                listItem.style.animationDelay = `${(i - 1) * 0.05}s`;
+                
+                problemList.appendChild(listItem);
+            }
+
+            renderMath();
+        };
+        
+        document.addEventListener('DOMContentLoaded', () => {
+            renderMath();
+            
+            const mainContent = document.querySelectorAll('.container > *');
+            mainContent.forEach((element, index) => {
+                element.style.animation = `fadeIn 1s ease-out forwards`;
+                element.style.animationDelay = `${index * 0.15}s`;
+            });
+            
+            generateProblems();
+        });
+
+        generateButton.addEventListener('click', generateProblems);
+
+    </script>
+</body>
+</html>
