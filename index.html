@@ -51,6 +51,11 @@
             }
         }
 
+        /* === Smooth Scrolling (New) === */
+        html {
+            scroll-behavior: smooth;
+        }
+
         /* === General Styles === */
         body {
             font-family: 'Roboto', sans-serif;
@@ -92,6 +97,49 @@
             font-size: 2.5em;
         }
         
+        /* === Table of Contents Style (New) === */
+        .table-of-contents {
+            background-color: var(--bg-color);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 15px 25px;
+            margin: 2.5em 0;
+        }
+
+        .table-of-contents h3 {
+            margin-top: 0;
+            border-bottom: 2px solid var(--border-color);
+            padding-bottom: 10px;
+            margin-bottom: 15px;
+            font-size: 1.3em;
+        }
+
+        .table-of-contents ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .table-of-contents li {
+            margin-bottom: 10px;
+        }
+        
+        .table-of-contents li:last-child {
+            margin-bottom: 0;
+        }
+
+        .table-of-contents a {
+            color: var(--text-color);
+            text-decoration: none;
+            font-weight: bold;
+            transition: color 0.2s;
+            display: block;
+        }
+
+        .table-of-contents a:hover {
+            color: var(--header-color);
+        }
+
         /* === KaTeX Color Theming === */
         .katex {
             color: var(--text-color);
@@ -181,6 +229,18 @@
 
     <div class="container">
         <h1>平方根を学ぼう！</h1>
+
+        <!-- === Table of Contents (New) === -->
+        <nav class="table-of-contents">
+            <h3>目次</h3>
+            <ul>
+                <li><a href="#introduction">$1$. 平方根ってなんだろう？</a></li>
+                <li><a href="#how-to-find-value">$2$. ルートの値の求め方</a></li>
+                <li><a href="#simplifying">$3$. ルートの中を簡単にしよう（簡略化）</a></li>
+                <li><a href="#calculation">$4$. 平方根の計算ルール</a></li>
+                <li><a href="#problem-section">$5$. 練習問題</a></li>
+            </ul>
+        </nav>
 
         <section id="introduction">
             <h2>$1$. 平方根ってなんだろう？</h2>
@@ -415,4 +475,4 @@
 
     </script>
 </body>
-</html>```
+</html>
